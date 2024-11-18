@@ -71,7 +71,6 @@ int main() {
     BST bst; // bst nesnesi oluşturduk
     bst.insert("Ahmet", 4231);
     bst.insert("Ayse", 2243);
-    bst.insert("John", 1502);
     bst.insert("Sam", 1890);
     bst.insert("Can", 8237);
     bst.insert("Canan", 3421);
