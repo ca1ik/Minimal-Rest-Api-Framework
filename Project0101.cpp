@@ -76,6 +76,8 @@ int main() {
     bst.insert("Can", 8237);
     bst.insert("Canan", 3421);
     bst.insert("Hasan", 6781); // ağaca düğümleri ekledik
+	cout << endl;
+	cout << endl;
 
     cout << endl;
     cout << "findMin() ve findMax() uygulaması" << endl;
