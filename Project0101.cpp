@@ -77,7 +77,6 @@ int main() {
     bst.insert("Canan", 3421);
     bst.insert("Hasan", 6781); // aðaca düðümleri ekledik
 	cout << endl;
-	cout << endl;
 
     cout << endl;
     cout << "findMin() ve findMax() uygulamasý" << endl;
