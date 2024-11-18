@@ -58,6 +58,7 @@ public:
     Node* findMax() { // public findMax fonksiyonu
         if (root == NULL) // aðaç boþsa
             return NULL;
+			
         return findMax(root); // findMax yardýmcý fonksiyonunu kök düðümle çaðýr
     }
 
