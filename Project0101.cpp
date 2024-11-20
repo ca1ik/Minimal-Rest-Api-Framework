@@ -73,6 +73,7 @@ int main() {
     bst.insert("Ahmet", 4231);
     bst.insert("Ayse", 2243);
     bst.insert("Sam", 1890);
+	bst.insert("Dora", 1890); //ID probleminin testi **
     bst.insert("Can", 8237);
     bst.insert("Canan", 3421);
     bst.insert("Hasan", 6781); // ağaca düğümleri ekledik
