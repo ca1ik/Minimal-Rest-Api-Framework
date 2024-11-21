@@ -15,6 +15,7 @@ struct Node { // düðüm yapýsýný oluþturan struct tanýmlamasý
 };
 
 class BST {
+	
 private:
     Node* root; // aðacýn kök düðümü
 
