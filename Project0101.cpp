@@ -8,6 +8,7 @@ struct Node { // düðüm yapýsýný oluþturan struct tanýmlamasý
 
     Node* left; // sol çocuk düðüm pointer
     Node* right; // sað çocuk düðüm pointer
+	
 
     Node(string n, int i) : name(n), id(i), left(NULL), right(NULL) {} // düðüm yapýsýnýn yapýcý fonksiyonu
 	
