@@ -24,7 +24,6 @@ This project is a **minimal REST API framework** implemented in Python without a
 git clone https://github.com/YOUR_USERNAME/Minimal-Rest-Api-Framework.git
 cd Minimal-Rest-Api-Framework
 ```
-// Don't forget [YOUR_USERNAME]
 
 ### Ensure you have Python 3 installed on your system.
 
@@ -143,6 +142,23 @@ git push origin feature-name
 ![Welcome Endpoint](https://i.ibb.co/9cx92gT/Welcome-Endpoint-Screenshot.png)
 
 ![Data Endpoint](https://i.ibb.co/DwFkYnZ/JSON-Response-Screenshot.png)
+
+---
+
+## 🔮 **ENHANCEMENTS**
+
+### Purpose:
+This project is designed for **small projects, quick prototyping,** and **learning Python fundamentals.**
+
+### Roadmap:
+- [ ] Add support for `PUT` and `DELETE` methods.
+
+- [ ] Enable XML response format.
+
+- [ ] Add multilingual support for localization.
+
+### Support:
+If you enjoy this project, consider starring it on GitHub or contributing to its development!
 
 ---
 
