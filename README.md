@@ -21,9 +21,10 @@ This project is a **minimal REST API framework** implemented in Python without a
 ### Clone the repository:
 
 ```bash
-git clone https://github.com/ca1ik/Minimal-Rest-Api-Framework.git
+git clone https://github.com/YOUR_USERNAME/Minimal-Rest-Api-Framework.git
 cd Minimal-Rest-Api-Framework
 ```
+// Don't forget [YOUR_USERNAME]
 
 ### Ensure you have Python 3 installed on your system.
 
