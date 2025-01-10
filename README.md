@@ -133,7 +133,7 @@ git push origin feature-name
 ## 🌐 **CONNECT**
 
 - **GitHub:** [ca1ik](https://github.com/ca1ik)
-- **Email:** [halicalix@gmail.com](mailto:halicalix@gmail.com)
+- **Email:** [lalochesian@gmail.com](mailto:lalochesian@gmail.com)
 
 ---
 
