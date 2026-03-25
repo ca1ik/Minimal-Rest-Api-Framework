@@ -60,6 +60,7 @@ flutter:
 
   assets:
     - Assets/Kelimelik/sozluk.txt
+    - Assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

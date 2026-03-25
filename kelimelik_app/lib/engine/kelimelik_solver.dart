@@ -1,6 +1,6 @@
-/// Production-grade Kelimelik solver engine ported from Python.
-/// Uses Trie for O(L) prefix checks instead of Python's O(1) set + O(n) build.
-/// Designed to run in a Dart Isolate for non-blocking computation.
+// Production-grade Kelimelik solver engine ported from Python.
+// Uses Trie for O(L) prefix checks instead of Python's O(1) set + O(n) build.
+// Designed to run in a Dart Isolate for non-blocking computation.
 import '../core/constants/board_constants.dart';
 import '../domain/entities/board_cell.dart';
 import '../domain/entities/game_move.dart';

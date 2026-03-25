@@ -23,6 +23,8 @@ class KColors {
   static const darkAccentRed = Color(0xFFEF4444); // Red-500
   static const darkAccentOrange = Color(0xFFF97316); // Orange-500
   static const darkAccentPurple = Color(0xFFA855F7); // Purple-500
+  static const darkAccentBlue = Color(0xFF3B82F6); // Blue-500 alias
+  static const darkAccentYellow = Color(0xFFFACC15); // Yellow-400
   static const darkSurface = Color(0xFF131316);
   static const darkInput = Color(0xFF1C1C20);
   static const darkRing = Color(0xFF3B82F6);
