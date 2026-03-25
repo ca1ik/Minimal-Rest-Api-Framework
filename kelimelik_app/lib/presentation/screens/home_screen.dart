@@ -45,23 +45,15 @@ class HomeScreen extends ConsumerWidget {
           Expanded(
             child: Stack(
               children: [
-                // Background image with high transparency
-                Positioned.fill(child: _BackgroundImage(isDark: isDark)),
-
-                // Foreground: sidebar + content
+                // Sidebar + content
                 Row(
                   children: [
-                    // Fixed sidebar
                     const AppSidebar(),
-
-                    // Vertical divider
                     VerticalDivider(
                       width: 1,
                       thickness: 1,
                       color: isDark ? KColors.darkBorder : KColors.lightBorder,
                     ),
-
-                    // Content
                     Expanded(
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 200),
@@ -72,6 +64,11 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
+                ),
+
+                // Background overlay — on top of content, pass-through clicks
+                Positioned.fill(
+                  child: IgnorePointer(child: _BackgroundImage(isDark: isDark)),
                 ),
 
                 // AI Chat floating widget (bottom-right)
@@ -94,7 +91,7 @@ class _BackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: isDark ? 0.04 : 0.06,
+      opacity: isDark ? 0.10 : 0.14,
       child: Image.asset(
         'Assets/images/scrabble_PP4.jpg',
         fit: BoxFit.cover,
