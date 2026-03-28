@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -53,19 +54,7 @@ class _AiChatWidgetState extends ConsumerState<AiChatWidget>
 
     // Welcome message
     _messages.add(
-      _ChatMessage(
-        text:
-            'Merhaba! Ben Kelimelik AI asistanınızım. Bana kelimelik hakkında soru sorabilir veya '
-            'komut verebilirsiniz.\n\n'
-            'Örnek komutlar:\n'
-            '• "ES kelimesini 7,7\'ye yatay yaz"\n'
-            '• "Tahtayı temizle"\n'
-            '• "Hamle bul"\n'
-            '• "En iyi hamleyi oyna"\n'
-            '• "Kalan harfleri göster"',
-        isUser: false,
-        time: DateTime.now(),
-      ),
+      _ChatMessage(text: S.aiWelcome, isUser: false, time: DateTime.now()),
     );
   }
 
@@ -117,124 +106,142 @@ class _AiChatWidgetState extends ConsumerState<AiChatWidget>
     final state = ref.read(gameProvider);
 
     // Board clear
-    if (command.contains('temizle') || command.contains('sıfırla')) {
+    if (command.contains('temizle') ||
+        command.contains('sıfırla') ||
+        command.contains('clear')) {
       notifier.clearBoard();
-      return 'Tahta temizlendi! ✅';
+      return S.aiBoardCleared;
     }
 
     // Find moves
-    if (command.contains('hamle bul') || command.contains('çöz')) {
+    if (command.contains('hamle bul') ||
+        command.contains('çöz') ||
+        command.contains('find move') ||
+        command.contains('search')) {
       if (state.handLetters.trim().isEmpty) {
-        return 'Önce elinizdeki harfleri girin, sonra hamle bulabilirim.';
+        return S.aiEnterHandFirst;
       }
       notifier.findMoves();
-      return 'Hamle arama başlatıldı! 🔍 Sonuçlar hazır olduğunda tabloda görünecek.';
+      return S.aiSearchStarted;
     }
 
     // Play best move
     if (command.contains('en iyi') && command.contains('oyna') ||
-        command.contains('best')) {
+        command.contains('best') ||
+        command.contains('play') && command.contains('best')) {
       if (state.moves.isEmpty) {
-        return 'Henüz bulunan hamle yok. Önce "hamle bul" deneyin.';
+        return S.aiNoMoves;
       }
       notifier.selectMove(0);
       notifier.playSelectedMove();
-      return 'En yüksek puanlı hamle oynandı! 🎯\n'
-          '${state.moves.first.word} → ${state.moves.first.score} puan';
+      return S.aiBestPlayed(state.moves.first.word, state.moves.first.score);
     }
 
     // Select move
-    if (command.contains('seç') && command.contains('oyna')) {
+    if (command.contains('seç') && command.contains('oyna') ||
+        command.contains('play') && command.contains('selected')) {
       if (state.selectedMoveIndex != null) {
         notifier.playSelectedMove();
-        return 'Seçili hamle oynandı! ✅';
+        return S.aiSelectedPlayed;
       }
-      return 'Önce sonuçlar tablosundan bir hamle seçin.';
+      return S.aiSelectFirst;
     }
 
     // Remaining letters
-    if (command.contains('kalan') && command.contains('harf')) {
+    if (command.contains('kalan') && command.contains('harf') ||
+        command.contains('remaining') ||
+        command.contains('bag')) {
       final remaining = state.remainingLetters;
       final total = remaining.values.fold<int>(0, (s, v) => s + v.clamp(0, 99));
       final nonZero = remaining.entries
           .where((e) => e.value > 0)
           .map((e) => '${e.key}:${e.value}')
           .join(', ');
-      return 'Kalan $total taş:\n$nonZero';
+      return S.aiRemainingTiles(total, nonZero);
     }
 
-    // Enter word on board
-    final writeMatch = RegExp(
+    // Enter word on board (Turkish)
+    final writeMatchTr = RegExp(
       r'(?:yaz|koy|yerleştir).*?([a-züöçşığ]+).*?(\d+)\s*[,;.]\s*(\d+).*?(yatay|dikey)',
       caseSensitive: false,
     ).firstMatch(command);
-    if (writeMatch != null) {
-      final word = writeMatch.group(1)!;
-      final row = int.tryParse(writeMatch.group(2)!) ?? 0;
-      final col = int.tryParse(writeMatch.group(3)!) ?? 0;
-      final horizontal = writeMatch.group(4)!.contains('yatay');
+    if (writeMatchTr != null) {
+      final word = writeMatchTr.group(1)!;
+      final row = int.tryParse(writeMatchTr.group(2)!) ?? 0;
+      final col = int.tryParse(writeMatchTr.group(3)!) ?? 0;
+      final horizontal = writeMatchTr.group(4)!.contains('yatay');
       notifier.enterWord(row, col, word, horizontal);
-      return '"${word.toUpperCase()}" kelimesi ($row,$col) konumuna '
-          '${horizontal ? "yatay" : "dikey"} olarak yazıldı! ✅';
+      return S.aiWordWritten(word, row, col, horizontal);
+    }
+
+    // Enter word on board (English)
+    final writeMatchEn = RegExp(
+      r'(?:write|place|put).*?([a-z]+).*?(\d+)\s*[,;.]\s*(\d+).*?(horizontal|vertical)',
+      caseSensitive: false,
+    ).firstMatch(command);
+    if (writeMatchEn != null) {
+      final word = writeMatchEn.group(1)!;
+      final row = int.tryParse(writeMatchEn.group(2)!) ?? 0;
+      final col = int.tryParse(writeMatchEn.group(3)!) ?? 0;
+      final horizontal = writeMatchEn.group(4)!.contains('horizontal');
+      notifier.enterWord(row, col, word, horizontal);
+      return S.aiWordWritten(word, row, col, horizontal);
     }
 
     // Set hand letters
     if (command.contains('harf') &&
-        (command.contains('gir') || command.contains('ayarla'))) {
+            (command.contains('gir') || command.contains('ayarla')) ||
+        command.contains('set') && command.contains('letter')) {
       final letters = command.replaceAll(RegExp(r'[^a-züöçşığ*]'), '');
       if (letters.isNotEmpty) {
         notifier.setHandLetters(letters);
-        return 'El harfleri "${letters.toUpperCase()}" olarak ayarlandı! ✅';
+        return S.aiHandSet(letters);
       }
     }
 
     // Opponent analysis
-    if (command.contains('rakip')) {
+    if (command.contains('rakip') || command.contains('opponent')) {
       notifier.findMoves(isOpponent: true);
-      return 'Rakip analizi başlatıldı! 🕵️ Sonuçlar hazır olduğunda görünecek.';
+      return S.aiOpponentStarted;
     }
 
     // Game type
     if (command.contains('5lik') ||
         command.contains('beşlik') ||
-        command.contains('9x9')) {
+        command.contains('9x9') ||
+        command.contains('quick')) {
       notifier.setGameType(GameType.beslik);
-      return 'Oyun modu 9×9 (5\'lik) olarak değiştirildi! ✅';
+      return S.aiMode5lik;
     }
-    if (command.contains('klasik') || command.contains('15x15')) {
+    if (command.contains('klasik') ||
+        command.contains('15x15') ||
+        command.contains('classic')) {
       notifier.setGameType(GameType.klasik);
-      return 'Oyun modu 15×15 (Klasik) olarak değiştirildi! ✅';
+      return S.aiModeClassic;
     }
 
     // Stats
-    if (command.contains('istatistik') || command.contains('durum')) {
+    if (command.contains('istatistik') ||
+        command.contains('durum') ||
+        command.contains('status') ||
+        command.contains('stats')) {
       final dict = ref.read(dictionaryProvider).valueOrNull;
-      return 'Durum Raporu:\n'
-          '• Sözlük: ${dict?.length ?? 0} kelime\n'
-          '• Tahta: ${state.gameType == GameType.klasik ? "15×15" : "9×9"}\n'
-          '• Bulunan hamle: ${state.moves.length}\n'
-          '• En yüksek puan: ${state.moves.isNotEmpty ? state.moves.first.score : 0}\n'
-          '• Kalan taş: ${state.totalRemainingLetters}';
+      final boardType = state.gameType == GameType.klasik ? '15×15' : '9×9';
+      return S.aiStatusReport(
+        dict?.length ?? 0,
+        boardType,
+        state.moves.length,
+        state.moves.isNotEmpty ? state.moves.first.score : 0,
+        state.totalRemainingLetters,
+      );
     }
 
     // Help
     if (command.contains('yardım') || command.contains('help')) {
-      return 'Kullanılabilir komutlar:\n\n'
-          '🎮 Oyun:\n'
-          '• "hamle bul" — Hamle ara\n'
-          '• "en iyi hamleyi oyna" — #1 hamleyi oyna\n'
-          '• "tahtayı temizle" — Sıfırla\n'
-          '• "rakip analizi" — Rakip hamlelerini bul\n\n'
-          '📝 Tahta:\n'
-          '• "[kelime] [satır],[sütun] yatay/dikey yaz"\n'
-          '• "harf gir [harfler]" — El harflerini ayarla\n\n'
-          '📊 Bilgi:\n'
-          '• "kalan harfler" — Torba durumu\n'
-          '• "durum" — Genel istatistik\n'
-          '• "klasik/5lik" — Oyun modu değiştir';
+      return S.aiHelp;
     }
 
-    return 'Anlamadım. "yardım" yazarak kullanılabilir komutları görebilirsiniz. 🤔';
+    return S.aiUnknown;
   }
 
   void _scrollToBottom() {
@@ -366,7 +373,7 @@ class _AiChatWidgetState extends ConsumerState<AiChatWidget>
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'Kelimelik AI',
+                  S.aiName,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
@@ -382,7 +389,7 @@ class _AiChatWidgetState extends ConsumerState<AiChatWidget>
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    'ONLINE',
+                    S.aiOnline,
                     style: theme.textTheme.labelSmall?.copyWith(
                       fontSize: 8,
                       fontWeight: FontWeight.w800,
@@ -438,7 +445,7 @@ class _AiChatWidgetState extends ConsumerState<AiChatWidget>
                     controller: _controller,
                     style: theme.textTheme.bodySmall,
                     decoration: InputDecoration(
-                      hintText: 'Komut veya soru yazın...',
+                      hintText: S.aiInputHint,
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 12,
