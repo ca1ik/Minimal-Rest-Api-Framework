@@ -304,9 +304,7 @@ class GameNotifier extends StateNotifier<GameState> {
     } else {
       hand = turkceLower(state.handLetters.trim());
       if (hand.isEmpty) {
-        state = state.copyWith(
-          errorMessage: () => S.enterHandLetters,
-        );
+        state = state.copyWith(errorMessage: () => S.enterHandLetters);
         return;
       }
     }

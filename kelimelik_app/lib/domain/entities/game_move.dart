@@ -31,5 +31,6 @@ class GameMove {
   String get position => '${String.fromCharCode(65 + row)}${col + 1}';
 
   /// Human-readable direction
-  String get directionDisplay => direction == 'yatay' ? S.dirHorizontal : S.dirVertical;
+  String get directionDisplay =>
+      direction == 'yatay' ? S.dirHorizontal : S.dirVertical;
 }
