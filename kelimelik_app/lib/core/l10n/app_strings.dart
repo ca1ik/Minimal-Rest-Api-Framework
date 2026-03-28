@@ -223,6 +223,12 @@ class S {
   static String wordAtPosition(String pos) =>
       _s('Word at position $pos...', '$pos konumuna kelime...');
 
+  // ─── Board Bonus Labels ──────────────────────────────────────────
+  static String get bonusK3 => _s('W×3', 'K×3');
+  static String get bonusK2 => _s('W×2', 'K×2');
+  static String get bonusH3 => _s('L×3', 'H×3');
+  static String get bonusH2 => _s('L×2', 'H×2');
+
   // ─── Results Table ───────────────────────────────────────────────
   static String get results => _s('Results', 'Sonuçlar');
   static String get enterLettersToFind =>
