@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 import '../widgets/stats_card.dart';
@@ -54,13 +55,13 @@ class AnalyticsScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Analiz',
+            S.analytics,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           Text(
-            'Bulunan hamlelerin istatistiksel analizi',
+            S.analyticsSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
             ),
@@ -72,36 +73,36 @@ class AnalyticsScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: StatsCard(
-                  title: 'Toplam Hamle',
+                  title: S.totalMoves,
                   value: '${moves.length}',
-                  subtitle: 'bulunan tüm hamleler',
+                  subtitle: S.allFoundMoves,
                   icon: Icons.layers_rounded,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: StatsCard(
-                  title: 'En Yüksek Puan',
+                  title: S.highestScore,
                   value: '$maxScore',
-                  subtitle: 'puan',
+                  subtitle: S.points,
                   icon: Icons.emoji_events_rounded,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: StatsCard(
-                  title: 'Ortalama Puan',
+                  title: S.avgScore,
                   value: avgScore.toStringAsFixed(1),
-                  subtitle: 'hamle başına',
+                  subtitle: S.perMove,
                   icon: Icons.analytics_rounded,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: StatsCard(
-                  title: 'Ort. Kelime Uzunluğu',
+                  title: S.avgWordLength,
                   value: avgWordLen.toStringAsFixed(1),
-                  subtitle: 'harf',
+                  subtitle: S.letters,
                   icon: Icons.text_fields_rounded,
                 ),
               ),
@@ -118,10 +119,10 @@ class AnalyticsScreen extends ConsumerWidget {
                   flex: 3,
                   child: _chartCard(
                     context,
-                    title: 'Puan Dağılımı',
+                    title: S.scoreDistribution,
                     borderColor: borderColor,
                     child: moves.isEmpty
-                        ? _emptyState(context, 'Henüz hamle bulunamadı')
+                        ? _emptyState(context, S.noMovesFound)
                         : Padding(
                             padding: const EdgeInsets.only(
                               left: 8,
@@ -220,10 +221,10 @@ class AnalyticsScreen extends ConsumerWidget {
                       Expanded(
                         child: _chartCard(
                           context,
-                          title: 'Yön Dağılımı',
+                          title: S.directionDist,
                           borderColor: borderColor,
                           child: moves.isEmpty
-                              ? _emptyState(context, 'Veri yok')
+                              ? _emptyState(context, S.noData)
                               : Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: PieChart(
@@ -233,7 +234,7 @@ class AnalyticsScreen extends ConsumerWidget {
                                       sections: [
                                         PieChartSectionData(
                                           value: horizontalCount.toDouble(),
-                                          title: 'Yatay\n$horizontalCount',
+                                          title: '${S.horizontal}\n$horizontalCount',
                                           color: KColors.darkAccentBlue,
                                           radius: 40,
                                           titleStyle: theme.textTheme.labelSmall
@@ -245,7 +246,7 @@ class AnalyticsScreen extends ConsumerWidget {
                                         ),
                                         PieChartSectionData(
                                           value: verticalCount.toDouble(),
-                                          title: 'Dikey\n$verticalCount',
+                                          title: '${S.vertical}\n$verticalCount',
                                           color: KColors.darkAccentGreen,
                                           radius: 40,
                                           titleStyle: theme.textTheme.labelSmall
@@ -267,10 +268,10 @@ class AnalyticsScreen extends ConsumerWidget {
                       Expanded(
                         child: _chartCard(
                           context,
-                          title: 'En Çok Kullanılan Harfler',
+                          title: S.mostUsedLetters,
                           borderColor: borderColor,
                           child: sortedLetters.isEmpty
-                              ? _emptyState(context, 'Veri yok')
+                              ? _emptyState(context, S.noData)
                               : ListView.builder(
                                   itemCount: sortedLetters.length.clamp(0, 10),
                                   padding: const EdgeInsets.all(8),

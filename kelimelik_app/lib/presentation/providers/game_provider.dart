@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/board_constants.dart';
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 import '../../domain/entities/board_cell.dart';
@@ -15,6 +16,10 @@ import '../../engine/kelimelik_solver.dart';
 
 final themeProvider = StateProvider<AppThemeMode>((ref) => AppThemeMode.dark);
 
+// ─── Language Provider ──────────────────────────────────────────────
+
+final languageProvider = StateProvider<AppLanguage>((ref) => AppLanguage.en);
+
 // ─── Navigation Provider ────────────────────────────────────────────
 
 final navigationIndexProvider = StateProvider<int>((ref) => 0);
@@ -22,7 +27,17 @@ final navigationIndexProvider = StateProvider<int>((ref) => 0);
 // ─── Dictionary Provider ────────────────────────────────────────────
 
 final dictionaryProvider = FutureProvider<Set<String>>((ref) async {
-  final data = await rootBundle.loadString('Assets/Kelimelik/sozluk.txt');
+  final lang = ref.watch(languageProvider);
+  S.setLanguage(lang);
+  final path = activeDictionaryPath;
+  final data = await rootBundle.loadString(path);
+  if (lang == AppLanguage.en) {
+    return data
+        .split('\n')
+        .map((line) => line.trim().toLowerCase())
+        .where((w) => w.isNotEmpty)
+        .toSet();
+  }
   return data
       .split('\n')
       .map((line) => turkceLower(line.trim()))
@@ -90,7 +105,7 @@ class GameState {
 
   /// Calculate remaining letter counts
   Map<String, int> get remainingLetters {
-    final counts = Map<String, int>.from(harfSayilari);
+    final counts = Map<String, int>.from(activeLetterCounts);
     for (final row in board) {
       for (final cell in row) {
         if (cell.isFilled) {
@@ -265,7 +280,7 @@ class GameNotifier extends StateNotifier<GameState> {
   Future<void> findMoves({bool isOpponent = false}) async {
     final dict = ref.read(dictionaryProvider).valueOrNull;
     if (dict == null || dict.isEmpty) {
-      state = state.copyWith(errorMessage: () => 'Sözlük yüklenemedi');
+      state = state.copyWith(errorMessage: () => S.dictLoadFailed);
       return;
     }
 
@@ -290,7 +305,7 @@ class GameNotifier extends StateNotifier<GameState> {
       hand = turkceLower(state.handLetters.trim());
       if (hand.isEmpty) {
         state = state.copyWith(
-          errorMessage: () => 'Lütfen elinizdeki harfleri girin',
+          errorMessage: () => S.enterHandLetters,
         );
         return;
       }
@@ -333,7 +348,7 @@ class GameNotifier extends StateNotifier<GameState> {
     } catch (e) {
       state = state.copyWith(
         isSolving: false,
-        errorMessage: () => 'Çözüm hatası: $e',
+        errorMessage: () => S.solverError('$e'),
       );
     }
   }

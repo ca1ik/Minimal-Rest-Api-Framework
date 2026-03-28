@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 import '../widgets/stats_card.dart';
@@ -26,14 +27,14 @@ class DashboardScreen extends ConsumerWidget {
         children: [
           // Title
           Text(
-            'Dashboard',
+            S.dashboard,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),
           Text(
-            'Kelimelik Pro oyun istatistiklerin',
+            S.dashboardSubtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: isDark ? KColors.darkTextMuted : KColors.lightTextMuted,
             ),
@@ -45,20 +46,20 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: StatsCard(
-                  title: 'Sözlük Boyutu',
+                  title: S.dictionarySize,
                   value: _formatNumber(totalWords),
-                  subtitle: 'Toplam Türkçe kelime',
+                  subtitle: S.totalWords,
                   icon: Icons.menu_book_rounded,
-                  badge: 'Aktif',
+                  badge: S.active,
                   trendColor: KColors.darkAccentGreen,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: StatsCard(
-                  title: 'Bulunan Hamleler',
+                  title: S.movesFound,
                   value: '$movesFound',
-                  subtitle: 'Son arama sonucu',
+                  subtitle: S.lastSearchResult,
                   icon: Icons.search_rounded,
                   badge: movesFound > 0 ? '+$movesFound' : null,
                   trendColor: KColors.darkAccent,
@@ -67,20 +68,20 @@ class DashboardScreen extends ConsumerWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: StatsCard(
-                  title: 'En Yüksek Puan',
+                  title: S.highestScore,
                   value: '$bestScore',
-                  subtitle: 'Mevcut tahtadaki en iyi hamle',
+                  subtitle: S.bestMoveOnBoard,
                   icon: Icons.emoji_events_rounded,
-                  badge: bestScore > 50 ? 'Güçlü' : null,
+                  badge: bestScore > 50 ? S.strong : null,
                   trendColor: KColors.darkAccentOrange,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: StatsCard(
-                  title: 'Kalan Harfler',
+                  title: S.remainingLetters,
                   value: '${gameState.totalRemainingLetters}',
-                  subtitle: 'Torbada kalan harf sayısı',
+                  subtitle: S.tilesLeftInBag,
                   icon: Icons.inventory_2_outlined,
                 ),
               ),
@@ -124,13 +125,13 @@ class DashboardScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Puan Dağılımı',
+            S.scoreDistribution,
             style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
           Text(
-            'İlk 30 hamlenin puan grafiği',
+            S.first30Chart,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextMuted : KColors.lightTextMuted,
             ),
@@ -141,7 +142,7 @@ class DashboardScreen extends ConsumerWidget {
             child: scores.isEmpty
                 ? Center(
                     child: Text(
-                      'Hamle bulmak için oyun tahtasına geçin',
+                      S.goToGameBoard,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isDark
                             ? KColors.darkTextSubtle
@@ -217,14 +218,14 @@ class DashboardScreen extends ConsumerWidget {
           Row(
             children: [
               Text(
-                'En İyi Hamleler',
+                S.topMoves,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const Spacer(),
               Text(
-                'İlk 10',
+                S.top10,
                 style: theme.textTheme.bodySmall?.copyWith(color: mutedColor),
               ),
             ],
@@ -235,7 +236,7 @@ class DashboardScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(
                 child: Text(
-                  'Henüz hamle hesaplanmadı',
+                  S.noMovesCalculated,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: isDark
                         ? KColors.darkTextSubtle

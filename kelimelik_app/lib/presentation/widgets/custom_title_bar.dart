@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -80,7 +81,7 @@ class CustomTitleBar extends ConsumerWidget {
             ),
             const SizedBox(width: 10),
             Text(
-              'Kelimelik Solver',
+              S.appTitle,
               style: TextStyle(
                 color: textColor,
                 fontSize: 12,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 import '../providers/game_provider.dart';
@@ -37,13 +38,13 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
         children: [
           // Header
           Text(
-            'Sözlük',
+            S.dictionary,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           Text(
-            'Kelime ara, kontrol et ve sözlüğü yönet',
+            S.dictSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
             ),
@@ -63,8 +64,8 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                 Expanded(
                   child: TextField(
                     controller: _searchController,
-                    decoration: const InputDecoration(
-                      hintText: 'Kelime ara...',
+                    decoration: InputDecoration(
+                      hintText: S.searchWord,
                       prefixIcon: Icon(Icons.search),
                     ),
                     onChanged: (v) =>
@@ -116,7 +117,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
-                                    found ? 'Geçerli' : 'Bulunamadı',
+                                    found ? S.valid : S.notFound,
                                     style: theme.textTheme.labelSmall?.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: found
@@ -161,7 +162,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                         children: [
                           _statCard(
                             context,
-                            'Toplam Kelime',
+                            S.totalWordCount,
                             '${words.length}',
                             Icons.menu_book_rounded,
                             KColors.darkAccentBlue,
@@ -169,7 +170,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                           const SizedBox(height: 10),
                           _statCard(
                             context,
-                            'Eşleşen',
+                            S.matching,
                             _query.isEmpty ? '-' : '${filtered.length}',
                             Icons.filter_alt_rounded,
                             KColors.darkAccentGreen,
@@ -177,7 +178,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                           const SizedBox(height: 10),
                           _statCard(
                             context,
-                            'Ortalama Uzunluk',
+                            S.avgLength,
                             words.isEmpty
                                 ? '-'
                                 : (words.fold<int>(0, (s, w) => s + w.length) /
@@ -213,7 +214,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
-                                      'Kelime aramak için yukarıya yazın',
+                                      S.typeToSearch,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(
                                             color: isDark
@@ -227,7 +228,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                             : filtered.isEmpty
                             ? Center(
                                 child: Text(
-                                  '"$_query" ile eşleşen kelime yok',
+                                  S.noMatchingWord(_query),
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: isDark
                                         ? KColors.darkTextSubtle
@@ -283,7 +284,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                                           Icons.content_copy,
                                           size: 16,
                                         ),
-                                        tooltip: 'Kopyala',
+                                        tooltip: S.copy,
                                         onPressed: () {}, // clipboard
                                       ),
                                     ),
@@ -296,7 +297,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Sözlük yüklenemedi: $e')),
+              error: (e, _) => Center(child: Text(S.dictLoadError('$e'))),
             ),
           ),
         ],

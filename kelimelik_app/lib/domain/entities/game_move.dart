@@ -1,4 +1,6 @@
 /// Domain entity: a solved move returned by the solver engine.
+import '../../core/l10n/app_strings.dart';
+
 class GameMove {
   final String word;
   final int score;
@@ -29,5 +31,5 @@ class GameMove {
   String get position => '${String.fromCharCode(65 + row)}${col + 1}';
 
   /// Human-readable direction
-  String get directionDisplay => direction == 'yatay' ? 'Yatay' : 'Dikey';
+  String get directionDisplay => direction == 'yatay' ? S.dirHorizontal : S.dirVertical;
 }

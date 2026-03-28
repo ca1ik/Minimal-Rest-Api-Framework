@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -22,13 +23,13 @@ class SettingsScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ayarlar',
+            S.settings,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           Text(
-            'Tema, oyun tipi ve uygulama ayarları',
+            S.settingsSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
             ),
@@ -38,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
           // Theme Section
           _sectionCard(
             context,
-            title: 'Tema',
+            title: S.theme,
             icon: Icons.palette_outlined,
             borderColor: borderColor,
             child: Row(
@@ -80,7 +81,7 @@ class SettingsScreen extends ConsumerWidget {
           // Game Type Section
           _sectionCard(
             context,
-            title: 'Oyun Tipi',
+            title: S.gameType,
             icon: Icons.grid_4x4_rounded,
             borderColor: borderColor,
             child: Row(
@@ -89,8 +90,8 @@ class SettingsScreen extends ConsumerWidget {
                   context,
                   ref,
                   type: GameType.klasik,
-                  label: 'Klasik (15×15)',
-                  description: 'Standart Kelimelik tahtası',
+                  label: S.classicBoard,
+                  description: S.classicDesc,
                   isSelected: gameState.gameType == GameType.klasik,
                 ),
                 const SizedBox(width: 12),
@@ -98,9 +99,39 @@ class SettingsScreen extends ConsumerWidget {
                   context,
                   ref,
                   type: GameType.beslik,
-                  label: '5\'lik (9×9)',
-                  description: 'Hızlı oyun modu',
+                  label: S.quickBoard,
+                  description: S.quickDesc,
                   isSelected: gameState.gameType == GameType.beslik,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Language Section
+          _sectionCard(
+            context,
+            title: S.language,
+            icon: Icons.language_rounded,
+            borderColor: borderColor,
+            child: Row(
+              children: [
+                _langOption(
+                  context,
+                  ref,
+                  lang: AppLanguage.en,
+                  label: S.english,
+                  flag: '🇺🇸',
+                  isSelected: ref.watch(languageProvider) == AppLanguage.en,
+                ),
+                const SizedBox(width: 12),
+                _langOption(
+                  context,
+                  ref,
+                  lang: AppLanguage.tr,
+                  label: S.turkish,
+                  flag: '🇹🇷',
+                  isSelected: ref.watch(languageProvider) == AppLanguage.tr,
                 ),
               ],
             ),
@@ -110,20 +141,19 @@ class SettingsScreen extends ConsumerWidget {
           // About Section
           _sectionCard(
             context,
-            title: 'Hakkında',
+            title: S.about,
             icon: Icons.info_outline_rounded,
             borderColor: borderColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _infoRow(context, 'Uygulama', 'Kelimelik Solver'),
-                _infoRow(context, 'Sürüm', '2.0.0'),
-                _infoRow(context, 'Platform', 'Flutter Desktop'),
-                _infoRow(context, 'Motor', 'Trie + Prefix Optimization'),
+                _infoRow(context, S.application, S.appTitle),
+                _infoRow(context, S.version, '2.0.0'),
+                _infoRow(context, S.platform, 'Flutter Desktop'),
+                _infoRow(context, S.engine, 'Trie + Prefix Optimization'),
                 const SizedBox(height: 8),
                 Text(
-                  'Kelimelik (Scrabble) oyunu için gelişmiş hamle bulucu. '
-                  'Tüm geçerli hamleleri hesaplar ve puan sırasına göre listeler.',
+                  S.aboutDesc,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: isDark
                         ? KColors.darkTextSubtle
@@ -149,7 +179,7 @@ class SettingsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kısayol Tuşları',
+                  S.keyboardShortcuts,
                   style: theme.textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -159,11 +189,11 @@ class SettingsScreen extends ConsumerWidget {
                   spacing: 16,
                   runSpacing: 6,
                   children: [
-                    _shortcut(context, 'F5', 'Hamle Bul'),
-                    _shortcut(context, 'Ctrl+Del', 'Sıfırla'),
-                    _shortcut(context, 'Ctrl+Enter', 'Oyna'),
-                    _shortcut(context, 'Arrows', 'Gezin'),
-                    _shortcut(context, 'Delete', 'Harf Sil'),
+                    _shortcut(context, 'F5', S.scFindMoves),
+                    _shortcut(context, 'Ctrl+Del', S.scReset),
+                    _shortcut(context, 'Ctrl+Enter', S.scPlay),
+                    _shortcut(context, 'Arrows', S.scNavigate),
+                    _shortcut(context, 'Delete', S.scDeleteLetter),
                   ],
                 ),
               ],
@@ -253,6 +283,54 @@ class SettingsScreen extends ConsumerWidget {
                 style: theme.textTheme.labelMedium?.copyWith(
                   fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
                   color: isSelected ? color : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _langOption(
+    BuildContext context,
+    WidgetRef ref, {
+    required AppLanguage lang,
+    required String label,
+    required String flag,
+    required bool isSelected,
+  }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final accent = isDark ? KColors.darkAccent : KColors.lightAccent;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          ref.read(languageProvider.notifier).state = lang;
+          S.setLanguage(lang);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? accent.withValues(alpha: 0.08)
+                : (isDark ? KColors.darkCardHover : KColors.lightCardHover),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? accent : Colors.transparent,
+              width: isSelected ? 2 : 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(flag, style: const TextStyle(fontSize: 22)),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
                 ),
               ),
             ],

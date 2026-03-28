@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 import '../widgets/board_widget.dart';
@@ -58,7 +59,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     Row(
                       children: [
                         Text(
-                          'Oyun Tahtası',
+                          S.gameBoard,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w800,
                           ),
@@ -67,8 +68,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                         _chipButton(
                           context,
                           label: gameState.gameType == GameType.klasik
-                              ? '15×15 Klasik'
-                              : '9×9 5\'lik',
+                              ? S.classic15
+                              : S.quick9,
                           icon: Icons.grid_4x4_rounded,
                         ),
                       ],
@@ -116,13 +117,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Elimdeki Harfler',
+                            S.myLetters,
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
-                            'Joker için * kullanın',
+                            S.jokerHint,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: isDark
                                   ? KColors.darkTextSubtle
@@ -136,8 +137,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                               fontWeight: FontWeight.w700,
                               letterSpacing: 2,
                             ),
-                            decoration: const InputDecoration(
-                              hintText: 'Harfleri girin...',
+                            decoration: InputDecoration(
+                              hintText: S.enterLetters,
                               prefixIcon: Icon(Icons.keyboard_rounded),
                             ),
                             onChanged: (v) => ref
@@ -171,8 +172,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                         ),
                                   label: Text(
                                     gameState.isSolving
-                                        ? 'Hesaplanıyor...'
-                                        : 'Hamle Bul',
+                                        ? S.calculating
+                                        : S.findMoves,
                                   ),
                                 ),
                               ),
@@ -180,7 +181,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                               _iconButton(
                                 context,
                                 icon: Icons.people_outline,
-                                tooltip: 'Rakip Analizi (F6)',
+                                tooltip: S.opponentAnalysisF6,
                                 color: KColors.darkAccentGreen,
                                 onTap: gameState.isSolving
                                     ? null
@@ -192,7 +193,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                               _iconButton(
                                 context,
                                 icon: Icons.delete_outline,
-                                tooltip: 'Tahtayı Sıfırla (Ctrl+Del)',
+                                tooltip: S.resetBoard,
                                 color: KColors.darkAccentRed,
                                 onTap: () => ref
                                     .read(gameProvider.notifier)
@@ -215,7 +216,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                                   Icons.check_circle_outline,
                                   size: 18,
                                 ),
-                                label: const Text('Seçili Hamleyi Oyna'),
+                                label: Text(S.playSelectedMove),
                               ),
                             ),
                           ],

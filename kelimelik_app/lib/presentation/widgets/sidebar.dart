@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -49,7 +50,7 @@ class AppSidebar extends ConsumerWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'Kelimelik Pro',
+                  S.brandName,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -67,7 +68,7 @@ class AppSidebar extends ConsumerWidget {
                   ref.read(searchQueryProvider.notifier).state = v,
               style: theme.textTheme.bodySmall,
               decoration: InputDecoration(
-                hintText: 'Ara...',
+                hintText: S.searchHint,
                 prefixIcon: Icon(
                   Icons.search,
                   size: 18,
@@ -86,48 +87,48 @@ class AppSidebar extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Main navigation
-          _SectionLabel('Oyun', theme),
+          _SectionLabel(S.navGame, theme),
           _NavItem(
             icon: Icons.dashboard_rounded,
-            label: 'Dashboard',
+            label: S.navDashboard,
             index: 0,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 0,
           ),
           _NavItem(
             icon: Icons.grid_on_rounded,
-            label: 'Oyun Tahtası',
+            label: S.navGameBoard,
             index: 1,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 1,
           ),
           _NavItem(
             icon: Icons.analytics_outlined,
-            label: 'Analiz',
+            label: S.navAnalytics,
             index: 2,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 2,
           ),
 
           const SizedBox(height: 12),
-          _SectionLabel('Araçlar', theme),
+          _SectionLabel(S.navTools, theme),
           _NavItem(
             icon: Icons.book_outlined,
-            label: 'Sözlük',
+            label: S.navDictionary,
             index: 3,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 3,
           ),
           _NavItem(
             icon: Icons.swap_horiz_rounded,
-            label: 'Harf Değişim',
+            label: S.navLetterSwap,
             index: 4,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 4,
           ),
           _NavItem(
             icon: Icons.people_outline_rounded,
-            label: 'Rakip Analizi',
+            label: S.navOpponentAnalysis,
             index: 5,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 5,
@@ -139,7 +140,7 @@ class AppSidebar extends ConsumerWidget {
           Divider(color: borderColor, height: 1),
           _NavItem(
             icon: Icons.settings_outlined,
-            label: 'Ayarlar',
+            label: S.navSettings,
             index: 6,
             selected: index,
             onTap: () => ref.read(navigationIndexProvider.notifier).state = 6,

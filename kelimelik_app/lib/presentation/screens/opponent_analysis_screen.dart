@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -23,13 +24,13 @@ class OpponentAnalysisScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Rakip Analizi',
+            S.opponentAnalysis,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           Text(
-            'Torbadaki harflere göre rakibin yapabileceği hamleler',
+            S.opponentSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
             ),
@@ -59,7 +60,7 @@ class OpponentAnalysisScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Torba Durumu',
+                      S.bagStatus,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -75,7 +76,7 @@ class OpponentAnalysisScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        '$totalRemaining taş kaldı',
+                        S.tilesRemaining(totalRemaining),
                         style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w700,
                           color: KColors.darkAccent,
@@ -118,7 +119,7 @@ class OpponentAnalysisScreen extends ConsumerWidget {
                     )
                   : const Icon(Icons.search_rounded, size: 18),
               label: Text(
-                gameState.isSolving ? 'Hesaplanıyor...' : 'Rakip Hamleleri Bul',
+                gameState.isSolving ? S.calculating : S.findOpponentMoves,
               ),
             ),
           ),
@@ -147,7 +148,7 @@ class OpponentAnalysisScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'Rakip analizi çalıştırarak\nolası hamleleri görün',
+                            S.runOpponentAnalysis,
                             textAlign: TextAlign.center,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: isDark
@@ -166,14 +167,14 @@ class OpponentAnalysisScreen extends ConsumerWidget {
                           child: Row(
                             children: [
                               Text(
-                                'Olası Rakip Hamleleri',
+                                S.possibleOpponentMoves,
                                 style: theme.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                               const Spacer(),
                               Text(
-                                'En iyi ${gameState.moves.length} hamle',
+                                S.bestNMoves(gameState.moves.length),
                                 style: theme.textTheme.labelSmall?.copyWith(
                                   color: isDark
                                       ? KColors.darkTextSubtle

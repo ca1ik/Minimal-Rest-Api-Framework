@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/board_constants.dart';
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../providers/game_provider.dart';
 
@@ -31,13 +32,13 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Harf Değişim',
+            S.letterSwap,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
           Text(
-            'Hangi harfleri değiştirmek istediğinizi seçin',
+            S.letterSwapSubtitle,
             style: theme.textTheme.bodySmall?.copyWith(
               color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
             ),
@@ -59,7 +60,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Önce Oyun Tahtası\'nda elinizdeki harfleri girin',
+                      S.enterHandFirst,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: isDark
                             ? KColors.darkTextSubtle
@@ -84,14 +85,14 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Elinizdeki Harfler',
+                    S.yourLetters,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Değiştirmek istediğiniz harfleri tıklayın',
+                    S.tapToSwap,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: isDark
                           ? KColors.darkTextSubtle
@@ -199,7 +200,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                     Row(
                       children: [
                         Text(
-                          'Değişim Analizi',
+                          S.swapAnalysis,
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -218,7 +219,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              '${_selectedIndices.length} harf seçili',
+                              S.lettersSelected(_selectedIndices.length),
                               style: theme.textTheme.labelSmall?.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: KColors.darkAccentRed,
@@ -232,7 +233,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                       Expanded(
                         child: Center(
                           child: Text(
-                            'Değiştirmek istediğiniz harfleri seçin',
+                            S.selectLettersToSwap,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: isDark
                                   ? KColors.darkTextSubtle

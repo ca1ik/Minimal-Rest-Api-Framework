@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'core/l10n/app_strings.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/providers/game_provider.dart';
 import 'presentation/screens/home_screen.dart';
@@ -15,7 +16,7 @@ Future<void> main() async {
     size: Size(1400, 900),
     minimumSize: Size(1100, 700),
     center: true,
-    title: 'Kelimelik Solver',
+    title: 'ScrabbleBot',
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
@@ -35,9 +36,12 @@ class KelimelikApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
+    // Sync S language with provider
+    final lang = ref.watch(languageProvider);
+    S.setLanguage(lang);
 
     return MaterialApp(
-      title: 'Kelimelik Solver',
+      title: S.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.build(themeMode),
       home: const HomeScreen(),
