@@ -404,24 +404,93 @@ const List<String> turkceAlfabe = [
 
 /// English letter scores (standard Scrabble)
 const Map<String, int> englishLetterScores = {
-  'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2,
-  'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1,
-  'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1,
-  'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10,
+  'a': 1,
+  'b': 3,
+  'c': 3,
+  'd': 2,
+  'e': 1,
+  'f': 4,
+  'g': 2,
+  'h': 4,
+  'i': 1,
+  'j': 8,
+  'k': 5,
+  'l': 1,
+  'm': 3,
+  'n': 1,
+  'o': 1,
+  'p': 3,
+  'q': 10,
+  'r': 1,
+  's': 1,
+  't': 1,
+  'u': 1,
+  'v': 4,
+  'w': 4,
+  'x': 8,
+  'y': 4,
+  'z': 10,
 };
 
 /// English letter counts in the tile bag (total 98 + 2 blanks)
 const Map<String, int> englishLetterCounts = {
-  'A': 9, 'B': 2, 'C': 2, 'D': 4, 'E': 12, 'F': 2, 'G': 3,
-  'H': 2, 'I': 9, 'J': 1, 'K': 1, 'L': 4, 'M': 2, 'N': 6,
-  'O': 8, 'P': 2, 'Q': 1, 'R': 6, 'S': 4, 'T': 6, 'U': 4,
-  'V': 2, 'W': 2, 'X': 1, 'Y': 2, 'Z': 1, '*': 2,
+  'A': 9,
+  'B': 2,
+  'C': 2,
+  'D': 4,
+  'E': 12,
+  'F': 2,
+  'G': 3,
+  'H': 2,
+  'I': 9,
+  'J': 1,
+  'K': 1,
+  'L': 4,
+  'M': 2,
+  'N': 6,
+  'O': 8,
+  'P': 2,
+  'Q': 1,
+  'R': 6,
+  'S': 4,
+  'T': 6,
+  'U': 4,
+  'V': 2,
+  'W': 2,
+  'X': 1,
+  'Y': 2,
+  'Z': 1,
+  '*': 2,
 };
 
 /// English alphabet order
 const List<String> englishAlphabet = [
-  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -441,7 +510,6 @@ List<String> get activeAlphabet =>
     S.currentLanguage == AppLanguage.en ? englishAlphabet : turkceAlfabe;
 
 /// Dictionary asset path for the current language.
-String get activeDictionaryPath =>
-    S.currentLanguage == AppLanguage.en
-        ? 'Assets/english_dict.txt'
-        : 'Assets/sozluk.txt';
+String get activeDictionaryPath => S.currentLanguage == AppLanguage.en
+    ? 'Assets/english_dict.txt'
+    : 'Assets/sozluk.txt';
