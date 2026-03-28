@@ -1,4 +1,4 @@
-# **MINIMAL REST API FRAMEWORK**
+# Kelimelik Solver
 
 ---
 
