@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 import '../../domain/entities/game_move.dart';
@@ -44,7 +45,7 @@ class _ResultsTableState extends ConsumerState<ResultsTable> {
             child: Row(
               children: [
                 Text(
-                  'Sonuçlar',
+                  S.results,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -89,8 +90,8 @@ class _ResultsTableState extends ConsumerState<ResultsTable> {
                 ? Center(
                     child: Text(
                       gameState.isSolving
-                          ? 'Hesaplanıyor...'
-                          : 'Hamle bulmak için harfleri girin',
+                          ? S.calculating
+                          : S.enterLettersToFind,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isDark
                             ? KColors.darkTextSubtle
@@ -127,11 +128,11 @@ class _ResultsTableState extends ConsumerState<ResultsTable> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
         children: [
-          _sortableHeader('Kelime', 0, headerStyle, flex: 3),
-          _sortableHeader('Puan', 1, headerStyle, flex: 2),
-          _sortableHeader('Yön', 2, headerStyle, flex: 1),
-          _sortableHeader('Harf', 3, headerStyle, flex: 1),
-          _sortableHeader('Bonus', 4, headerStyle, flex: 2),
+          _sortableHeader(S.colWord, 0, headerStyle, flex: 3),
+          _sortableHeader(S.colScore, 1, headerStyle, flex: 2),
+          _sortableHeader(S.colDirection, 2, headerStyle, flex: 1),
+          _sortableHeader(S.colLetters, 3, headerStyle, flex: 1),
+          _sortableHeader(S.colBonus, 4, headerStyle, flex: 2),
         ],
       ),
     );

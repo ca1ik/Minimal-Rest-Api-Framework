@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/board_constants.dart';
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 import '../providers/game_provider.dart';
@@ -198,7 +199,7 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
             children: [
               const Icon(Icons.star, size: 16, color: KColors.boardStar),
               const SizedBox(width: 8),
-              Text(cell.hasStar ? 'Yıldızı Kaldır' : 'Yıldız Ekle (+25)'),
+              Text(cell.hasStar ? S.removeStar : S.addStar),
             ],
           ),
         ),
@@ -212,28 +213,28 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
                 color: cell.isJoker ? Colors.red : Colors.grey,
               ),
               const SizedBox(width: 8),
-              Text(cell.isJoker ? 'Joker Kaldır' : 'Joker İşaretle'),
+              Text(cell.isJoker ? S.removeJoker : S.markJoker),
             ],
           ),
         ),
         const PopupMenuDivider(),
         PopupMenuItem<void>(
           onTap: () => _promptWordEntry(context, row, col, true),
-          child: const Row(
+          child: Row(
             children: [
               Icon(Icons.arrow_forward, size: 16),
               SizedBox(width: 8),
-              Text('Yatay Kelime Gir'),
+              Text(S.enterWordHorizontal),
             ],
           ),
         ),
         PopupMenuItem<void>(
           onTap: () => _promptWordEntry(context, row, col, false),
-          child: const Row(
+          child: Row(
             children: [
               Icon(Icons.arrow_downward, size: 16),
               SizedBox(width: 8),
-              Text('Dikey Kelime Gir'),
+              Text(S.enterWordVertical),
             ],
           ),
         ),
@@ -241,7 +242,7 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
         PopupMenuItem<void>(
           enabled: false,
           child: Text(
-            'Hücre ${String.fromCharCode(65 + row)}${col + 1}',
+            S.cellLabel('${String.fromCharCode(65 + row)}${col + 1}'),
             style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
           ),
         ),
@@ -259,13 +260,14 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(horizontal ? 'Yatay Kelime Gir' : 'Dikey Kelime Gir'),
+        title: Text(horizontal ? S.enterWordHorizontal : S.enterWordVertical),
         content: TextField(
           controller: controller,
           autofocus: true,
           decoration: InputDecoration(
-            hintText:
-                '${String.fromCharCode(65 + row)}${col + 1} konumuna kelime...',
+            hintText: S.wordAtPosition(
+              '${String.fromCharCode(65 + row)}${col + 1}',
+            ),
           ),
           onSubmitted: (value) {
             if (value.isNotEmpty) {
@@ -279,7 +281,7 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('İptal'),
+            child: Text(S.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -290,7 +292,7 @@ class _GameBoardWidgetState extends ConsumerState<GameBoardWidget> {
               }
               Navigator.of(ctx).pop();
             },
-            child: const Text('Gir'),
+            child: Text(S.enter),
           ),
         ],
       ),
@@ -476,10 +478,10 @@ class _BoardPainter extends CustomPainter {
   };
 
   String _bonusLabel(BonusType bonus) => switch (bonus) {
-    BonusType.k3 => 'K×3',
-    BonusType.k2 => 'K×2',
-    BonusType.h3 => 'H×3',
-    BonusType.h2 => 'H×2',
+    BonusType.k3 => S.bonusK3,
+    BonusType.k2 => S.bonusK2,
+    BonusType.h3 => S.bonusH3,
+    BonusType.h2 => S.bonusH2,
     BonusType.start => '★',
     BonusType.none => '',
   };

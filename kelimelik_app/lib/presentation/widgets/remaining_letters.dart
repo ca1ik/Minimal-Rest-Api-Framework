@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/board_constants.dart';
+import '../../core/l10n/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/turkish_string.dart';
 import '../providers/game_provider.dart';
@@ -19,7 +20,11 @@ class RemainingLettersWidget extends ConsumerWidget {
     final borderColor = isDark ? KColors.darkBorder : KColors.lightBorder;
     final cardBg = isDark ? KColors.darkCard : KColors.lightCard;
 
-    final orderedLetters = [...turkceAlfabe.map((l) => turkceUpper(l)), '*'];
+    final isTr = S.currentLanguage == AppLanguage.tr;
+    String toUpper(String s) => isTr ? turkceUpper(s) : s.toUpperCase();
+    String toLower(String s) => isTr ? turkceLower(s) : s.toLowerCase();
+
+    final orderedLetters = [...activeAlphabet.map((l) => toUpper(l)), '*'];
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -34,7 +39,7 @@ class RemainingLettersWidget extends ConsumerWidget {
           Row(
             children: [
               Text(
-                'Kalan Harfler',
+                S.remainingLetters,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -64,7 +69,7 @@ class RemainingLettersWidget extends ConsumerWidget {
               final count = (remaining[letter] ?? 0).clamp(0, 99);
               final score = letter == '*'
                   ? 0
-                  : harfPuanlari[turkceLower(letter)] ?? 0;
+                  : activeLetterScores[toLower(letter)] ?? 0;
               final isZero = count == 0;
 
               return Container(
