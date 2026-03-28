@@ -234,7 +234,8 @@ class AnalyticsScreen extends ConsumerWidget {
                                       sections: [
                                         PieChartSectionData(
                                           value: horizontalCount.toDouble(),
-                                          title: '${S.horizontal}\n$horizontalCount',
+                                          title:
+                                              '${S.horizontal}\n$horizontalCount',
                                           color: KColors.darkAccentBlue,
                                           radius: 40,
                                           titleStyle: theme.textTheme.labelSmall
@@ -246,7 +247,8 @@ class AnalyticsScreen extends ConsumerWidget {
                                         ),
                                         PieChartSectionData(
                                           value: verticalCount.toDouble(),
-                                          title: '${S.vertical}\n$verticalCount',
+                                          title:
+                                              '${S.vertical}\n$verticalCount',
                                           color: KColors.darkAccentGreen,
                                           radius: 40,
                                           titleStyle: theme.textTheme.labelSmall

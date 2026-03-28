@@ -108,7 +108,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
                       final selected = _selectedIndices.contains(i);
                       final score = ch == '*'
                           ? 0
-                          : (harfPuanlari[ch.toUpperCase()] ?? 0);
+                          : (activeLetterScores[ch.toUpperCase()] ?? 0);
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -275,7 +275,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
     for (final i in selected) {
       final ch = handChars[i].toUpperCase();
       discardedLetters.add(ch);
-      discardedPoints += ch == '*' ? 0 : (harfPuanlari[ch] ?? 0);
+      discardedPoints += ch == '*' ? 0 : (activeLetterScores[ch] ?? 0);
     }
 
     // Pool stats
@@ -284,7 +284,7 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
     if (totalPoolTiles > 0) {
       int totalPoolPoints = 0;
       for (final e in remaining.entries) {
-        totalPoolPoints += (harfPuanlari[e.key] ?? 0) * e.value;
+        totalPoolPoints += (activeLetterScores[e.key] ?? 0) * e.value;
       }
       avgPoolValue = totalPoolPoints / totalPoolTiles;
     }
@@ -293,32 +293,31 @@ class _LetterSwapScreenState extends ConsumerState<LetterSwapScreen> {
       children: [
         _analysisRow(
           context,
-          'Atılan harfler',
+          S.discardedLetters,
           discardedLetters.join(', '),
           KColors.darkAccentRed,
         ),
         _analysisRow(
           context,
-          'Kaybedilen puan',
-          '$discardedPoints puan',
+          S.lostPoints,
+          '$discardedPoints ${S.points}',
           KColors.darkAccentOrange,
         ),
         _analysisRow(
           context,
-          'Torbadaki taş sayısı',
+          S.tilesInBag,
           '$totalPoolTiles',
           KColors.darkAccentBlue,
         ),
         _analysisRow(
           context,
-          'Torbada ort. değer',
+          S.bagAvgValue,
           avgPoolValue.toStringAsFixed(1),
           KColors.darkAccentGreen,
         ),
         const SizedBox(height: 16),
         Text(
-          'Not: Değişimden sonra torbadan ${selected.length} yeni harf çekeceksiniz. '
-          'Torbadaki ortalama harf değeri ${avgPoolValue.toStringAsFixed(1)} puandır.',
+          S.swapNote(selected.length, avgPoolValue.toStringAsFixed(1)),
           style: theme.textTheme.bodySmall?.copyWith(
             color: isDark ? KColors.darkTextSubtle : KColors.lightTextSubtle,
           ),
